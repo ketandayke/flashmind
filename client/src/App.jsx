@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuthStore } from './store/authStore';
+import api from './utils/api';
 import LoginPage    from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -21,13 +22,12 @@ export default function App() {
   // Render.com Free Tier Keep-Alive Ping
   useEffect(() => {
     const PING_INTERVAL = 10 * 60 * 1000; // 10 minutes
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
     
     // Initial ping on load just to help wake it up early
-    fetch(`${apiUrl}/api/health`).catch(() => {});
+    api.get('/health').catch(() => {});
 
     const interval = setInterval(() => {
-      fetch(`${apiUrl}/api/health`).catch(() => {});
+      api.get('/health').catch(() => {});
     }, PING_INTERVAL);
 
     return () => clearInterval(interval);
