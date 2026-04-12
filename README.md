@@ -4,9 +4,9 @@
   <p>Supercharge your studying. Upload any PDF and let AI generate, categorize, and schedule your flashcards using proven memory science.</p>
 
   <p>
-    <a href="#live-demo">Live Demo</a> • 
+    <a href="https://flashmind-woad.vercel.app/">Live Demo</a> • 
     <a href="#video-walkthrough">Video Walkthrough</a> • 
-    <a href="#system-architecture">Architecture</a>
+    <a href="https://github.com/ketandayke/flashmind/edit/main/README.md#-system-architecture">Architecture</a>
   </p>
 </div>
 
@@ -14,8 +14,8 @@
 
 ## 🚀 Live Links (Final Submission)
 
-- **Live Deployed App**: [Insert Vercel URL Here]
-- **Backend API**: [Insert Railway URL Here]
+- **Live Deployed App**: https://flashmind-woad.vercel.app
+- **Backend API**: https://flashmind-backend-grcq.onrender.com
 - **Video Walkthrough**: [Insert Loom / YouTube Link Here]
 - **GitHub Repository**: https://github.com/ketandayke/flashmind
 
