@@ -116,3 +116,11 @@ If I had an extra week entirely devoted to this application, I would implement:
 
 ---
 <p align="center">Built for optimal learning. 🎓</p>
+
+## 📫 Connect With Me
+- **Email**: [ketandayke@gmail.com](mailto:ketandayke@gmail.com)
+- **LinkedIn**: [Ketan Dayke](https://www.linkedin.com/in/ketan-dayke-kd050703/)
+- **GitHub**: [@ketandayke](https://github.com/ketandayke)
+
+<br/>
+<p align="right"><i>App made using Antigravity</i></p>
