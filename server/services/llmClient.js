@@ -1,8 +1,8 @@
-import Groq from 'groq-sdk';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const MODEL = 'llama-3.3-70b-versatile';
+const MODEL_NAME = 'gemini-2.5-flash-lite';
 
 const SYSTEM_PROMPT = `You are an expert educator who creates high-quality, self-contained flashcards for university students.
 
@@ -25,7 +25,7 @@ Your flashcards must test CONCEPTUAL UNDERSTANDING — not visual memory.
    ✗ BAD: "Explain the concept from this section."
    ✓ GOOD: "What is Newton's Second Law, and how does it relate force, mass, and acceleration?"
 
-4. Generate 5–10 flashcards per chunk. Focus on the most testable, high-yield knowledge.
+4. Generate 15–20 flashcards per chunk. Extract comprehensive, detailed concepts to ensure no high-yield knowledge is missed.
 
 5. Mix these card types:
    - Definition: "What is [term]?"
@@ -121,21 +121,23 @@ export const generateCardsFromChunk = async (chunk, attempt = 1) => {
   }
 
   try {
-    const response = await groq.chat.completions.create({
-      model: MODEL,
-      temperature: 0.35,
-      max_tokens: 2048,
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: `Generate flashcards from the following educational text:\n\n${cleaned}`,
-        },
-      ],
+    const model = genAI.getGenerativeModel({ 
+      model: MODEL_NAME, 
+      systemInstruction: SYSTEM_PROMPT 
     });
 
-    const raw = response.choices[0]?.message?.content?.trim();
-    if (!raw) throw new Error('Empty response from Groq');
+    const generationConfig = {
+      temperature: 0.35,
+      responseMimeType: "application/json",
+    };
+
+    const response = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: `Generate flashcards from the following educational text:\n\n${cleaned}` }] }],
+      generationConfig
+    });
+
+    const raw = response.response.text().trim();
+    if (!raw) throw new Error('Empty response from Gemini');
 
     const cards = extractCards(raw);
 
@@ -163,7 +165,21 @@ export const generateCardsFromChunk = async (chunk, attempt = 1) => {
       console.warn('⚠️  JSON parse failed on first attempt, retrying chunk...');
       return generateCardsFromChunk(chunk, 2);
     }
+    
+    // Automatically retry if Gemini API is experiencing high demand
+    const isOverloaded = error.status === 503 || error.status === 429 || (error.message && error.message.includes('503'));
+    if (isOverloaded && attempt <= 3) {
+      console.warn(`⏳ Server busy (503). Retrying chunk in ${attempt * 4}s...`);
+      await new Promise((r) => setTimeout(r, attempt * 4000));
+      return generateCardsFromChunk(chunk, attempt + 1);
+    }
+
     console.error(`❌ LLM error on chunk (attempt ${attempt}):`, error.message);
+    
+    // Throw API key errors so the pipeline accurately reports it
+    if (error.message.includes('API key') || error.status === 403) {
+      throw error;
+    }
     return [];
   }
 };

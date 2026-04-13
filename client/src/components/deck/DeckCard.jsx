@@ -103,9 +103,36 @@ export default function DeckCard({ deck, onDelete, onRename }) {
 
       {/* Processing state */}
       {deck.status === 'processing' && (
-        <div className="flex items-center gap-2 text-xs text-amber-300/70">
-          <Clock size={12} className="animate-spin" />
-          <span>AI generating flashcards...</span>
+        <div className="flex flex-col gap-2 mt-1">
+          <div className="flex items-center gap-2 text-xs text-amber-300/70 p-1">
+            <Clock size={12} className="animate-spin" />
+            <span>AI generating flashcards...</span>
+          </div>
+          <button
+            onClick={(e) => { e.stopPropagation(); onDelete?.(deck._id); }}
+            className="flex items-center justify-center gap-2 py-1.5 rounded-xl text-white/30 hover:bg-red-500/20 hover:text-red-400 transition-colors text-xs w-full"
+            title="Delete stuck deck"
+          >
+            <Trash2 size={14} />
+            Delete Stuck Deck
+          </button>
+        </div>
+      )}
+
+      {/* Failed state */}
+      {deck.status === 'failed' && (
+        <div className="flex flex-col gap-3 mt-1">
+          <div className="text-xs text-red-400 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+            <span className="font-semibold block mb-1">Processing Failed</span>
+            {deck.errorMessage || 'An unknown error occurred during generation.'}
+          </div>
+          <button
+            onClick={(e) => { e.stopPropagation(); onDelete?.(deck._id); }}
+            className="flex items-center justify-center gap-2 py-2 rounded-xl text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors text-xs font-semibold w-full"
+          >
+            <Trash2 size={14} />
+            Delete Failed Deck
+          </button>
         </div>
       )}
     </div>

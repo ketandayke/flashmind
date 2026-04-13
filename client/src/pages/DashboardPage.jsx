@@ -29,7 +29,11 @@ export default function DashboardPage() {
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { 
+    fetchData(); 
+    const interval = setInterval(fetchData, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleDelete = async (deckId) => {
     if (!window.confirm('Delete this deck and all its cards?')) return;

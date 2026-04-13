@@ -8,8 +8,8 @@
  *  - Split on paragraph breaks first, then enforce size limits
  */
 
-const CHUNK_SIZE_CHARS = 2000; // ≈ 500 tokens
-const OVERLAP_CHARS = 200;     // ≈ 50 tokens
+const CHUNK_SIZE_CHARS = 12000; // ≈ 3000 tokens
+const OVERLAP_CHARS = 500;     // ≈ 125 tokens
 
 /**
  * Remove common PDF extraction noise before chunking:
