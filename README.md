@@ -5,7 +5,7 @@
 
   <p>
     <a href="https://flashmind-woad.vercel.app/">Live Demo</a> • 
-    <a href="#video-walkthrough">Video Walkthrough</a> • 
+    <a href="https://www.loom.com/share/c66cb150ad864b0bbe09f915cbec0e52">Video Walkthrough</a> • 
     <a href="https://github.com/ketandayke/flashmind/edit/main/README.md#-system-architecture">Architecture</a>
   </p>
 </div>
@@ -16,7 +16,7 @@
 
 - **Live Deployed App**: https://flashmind-woad.vercel.app
 - **Backend API**: https://flashmind-backend-grcq.onrender.com
-- **Video Walkthrough**: [Insert Loom / YouTube Link Here]
+- **Video Walkthrough**: https://www.loom.com/share/c66cb150ad864b0bbe09f915cbec0e52
 - **GitHub Repository**: https://github.com/ketandayke/flashmind
 
 ---
